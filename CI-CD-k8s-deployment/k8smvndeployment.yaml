@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: maulik-deploy
+  labels:
+    app: maulik-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: maulik-app
+  template:
+    metadata:
+      labels:
+        app: maulik-app
+    spec:
+      containers:
+      - name: container001
+        image: maulikd2397/project2
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: maulik-np-service
+  labels:
+    app: maulik-app
+spec:
+  selector:
+    app: maulik-app
+
+  type: NodePort
+  ports:
+  - nodePort: 31028
+    port: 8080
+    targetPort: 8080
